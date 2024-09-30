@@ -31,4 +31,3 @@ nome, cognome, media, status, Insufficienti
 nome, cognome, media, status, Insufficienti
 Mario, Rossi, 6.0, promosso, 1
 Sandra Verdi, 7.0, promosso, 2
-*/
