@@ -22,6 +22,12 @@ const csv = `nome, cognome, italiano, storia, matematica, informatica, inglese, 
 Mario, Rossi, 6, 7, 6, 6, 5, 6, 6
 Sandra, Verdi, 5, 5, 7, 7, 10, 8, 7`
 
+function avg(array){
+    let res = array.reduce((acc, e) => acc + parseInt(e), 0);
+    res/=array.length;
+    return res;
+}
+
 const createTable = (parentElement) => {
     let data = [];
     let header = [];
@@ -31,6 +37,24 @@ const createTable = (parentElement) => {
             header = rows[0].replaceAll(/\s/g,"").split(",");
             rows.shift();
             rows.forEach((row) => data.push(row.replaceAll(/\s/g,"").split(",")));
+        },
+        build: (headerCSV) => {
+            if(headerCSV) header = headerCSV.replaceAll(/\s/g,"").split(",");
+            const d = data;
+            let stringa = [];
+            d.forEach(e => {
+                let res=[];
+                res.push(e.shift());
+                res.push(e.shift());
+                const avarage = avg(e);
+                res.push(avarage);
+                if(avarage>=6) res.push("promosso");
+                else res.push("bocciato");
+                res.push(e.filter((n) => n < 6).length);
+                stringa.push(res);
+            })
+            data = stringa;
+            
         },
         render: () => {
             let html = `<table class="table table-striped">`;
@@ -46,4 +70,5 @@ const createTable = (parentElement) => {
 
 const table = createTable(document.getElementById("app"));
 table.load(csv);
+table.build("nome, cognome, media, status, Insufficienti");
 table.render();
